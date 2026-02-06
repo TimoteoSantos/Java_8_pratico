@@ -21,7 +21,6 @@ public class Usuario extends abstractPessoa {
     public void tornaModerador(){
         this.moderador = true;
     }
-
     public boolean getModerador(){
         return moderador;
     }

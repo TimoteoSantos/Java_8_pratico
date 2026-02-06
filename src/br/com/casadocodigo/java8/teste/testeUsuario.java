@@ -1,10 +1,12 @@
 package br.com.casadocodigo.java8.teste;
 
+import br.com.casadocodigo.java8.Mostrador;
 import br.com.casadocodigo.java8.usuarios.Usuario;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class testeUsuario {
 
@@ -26,6 +28,7 @@ public class testeUsuario {
         usuarios1.add(user2);
         usuarios1.add(user3);
 
+
         //percorrendo o array de usuarios
         for (Usuario u : usuarios1){
             System.out.println(u.getNome());
@@ -35,5 +38,40 @@ public class testeUsuario {
         for (Usuario u : usuarios){
             System.out.println(u.getNome());
         }
+
+        //usando o Consumer()
+
+        //forEach() , esse metodo recebe como argumento um objeto do tipo
+
+        //criando uma classe anonima
+        Consumer<Usuario> mostrador = new Consumer<Usuario>() {
+            @Override
+            public void accept(Usuario usuario) {
+                System.out.println(usuario.getNome());
+            }
+        };
+
+        usuarios.forEach(mostrador); // estamos passando para o forEach() o mostrador
+
+        //LAMBDAS
+        // de forma simples um lambdas no java é uma forma simples de implementar uma interface
+        //que tem apenas um unico metodo
+
+        //estamos usando o nome da interface como tipo passando o usuario para uma variavel de nome mostrador2
+        // na segunda parte do codigo estamos passando para a interface uma variavel de nome u do tipo Usuario
+        //
+        Consumer<Usuario> mostrador2 =  (Usuario u) -> {
+            System.out.println(u.getNome());
+        };
+        usuarios.forEach(mostrador2);
+        System.out.println("---");
+
+        //USANDO MAIS LAMBDAS
+        Consumer<Usuario> mostrador3 = u -> System.out.println(u.getNome());
+        usuarios.forEach(mostrador3);
+
+        usuarios.forEach(u -> System.out.println(u.getNome()));
+        System.out.println("--");
+
     }
 }
