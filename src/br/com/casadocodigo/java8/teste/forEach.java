@@ -1,6 +1,5 @@
 package br.com.casadocodigo.java8.teste;
 
-import br.com.casadocodigo.java8.Mostrador;
 import br.com.casadocodigo.java8.usuarios.Usuario;
 
 import java.util.ArrayList;
@@ -8,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class testeUsuario {
+public class forEach {
 
     public static void main(String[] args) {
 
@@ -27,7 +26,6 @@ public class testeUsuario {
         usuarios1.add(user1);
         usuarios1.add(user2);
         usuarios1.add(user3);
-
 
         //percorrendo o array de usuarios
         for (Usuario u : usuarios1){
@@ -70,8 +68,15 @@ public class testeUsuario {
         Consumer<Usuario> mostrador3 = u -> System.out.println(u.getNome());
         usuarios.forEach(mostrador3);
 
+        //o forEach() sabe qu e o usuarios é do tipo Usuario e o u recebe esse tipo e no tipo tem o getNome()
         usuarios.forEach(u -> System.out.println(u.getNome()));
         System.out.println("--");
+
+        // veja que interessante podemos chamar um metodo de cada objeto (Por isso  precisam ser do mesmo tipo)
+        // objeto.loop(variavel -> variavel.metodo());
+
+        //lembrando que a varivavel u nao pode existir antes desse loop senao o compilador pode usar a variavel errada
+        usuarios.forEach(u -> u.tornaModerador());
 
     }
 }
