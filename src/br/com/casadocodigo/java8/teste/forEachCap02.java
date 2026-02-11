@@ -1,5 +1,6 @@
 package br.com.casadocodigo.java8.teste;
 
+import br.com.casadocodigo.java8.Mostrador;
 import br.com.casadocodigo.java8.usuarios.Usuario;
 
 import java.util.ArrayList;
@@ -39,6 +40,16 @@ public class forEachCap02 {
 
         //usando o Consumer()
         //forEach() , esse metodo recebe como argumento um objeto do tipo
+
+        //PRIMEIRO IREMOS USAR A CLASSE Mostrador() PARA MOSTRAR OS DADOS
+        //DEPOIS VEREMOS SOLUCOES MAIS SOFISTICADAS
+
+        //estamos criando um objeto do tipo Mostrador()
+        Mostrador mostrador0 = new Mostrador(); //essa classe implementa a interface que possue apenas um metodo por isso é uma interface funcional
+
+        //estamos fazendo um foreach no objeto
+        usuarios.forEach(mostrador0);
+
 
         //criando uma classe anonima
         Consumer<Usuario> mostrador = new Consumer<Usuario>() {

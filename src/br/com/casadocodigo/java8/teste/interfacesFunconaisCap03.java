@@ -1,5 +1,6 @@
 package br.com.casadocodigo.java8.teste;
 
+import br.com.casadocodigo.java8.Validador;
 import br.com.casadocodigo.java8.usuarios.Usuario;
 
 import java.util.ArrayList;
@@ -29,6 +30,14 @@ public class interfacesFunconaisCap03 {
         };
         usuarios1.forEach(mostrador);
         System.out.println("---");
+
+        //USANDO UMA INTERFACE FUNCIONAL
+        Validador<String> validarCPDF = new Validador<String>() {
+            @Override
+            public boolean valida(String s) {
+                return s.matches("[0-9]{5}-[0-9]{3}");
+            }
+        };
 
     }
 
