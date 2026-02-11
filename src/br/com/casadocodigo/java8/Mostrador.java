@@ -7,9 +7,11 @@ import java.util.function.Consumer;
 //Usuario e consumi-lo :)
 
 public class Mostrador implements Consumer<Usuario>{
+
     //sobrescrevendo o metodo accept(TipoObjeto variavel)
     @Override
     public void accept(Usuario u){
+
         //escrever o nome do objeto passado
         System.out.println(u.getNome());
     }

@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class forEach {
+public class forEachCap02 {
 
     public static void main(String[] args) {
 
@@ -38,7 +38,6 @@ public class forEach {
         }
 
         //usando o Consumer()
-
         //forEach() , esse metodo recebe como argumento um objeto do tipo
 
         //criando uma classe anonima

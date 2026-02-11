@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class interfacesFunconais {
+public class interfacesFunconaisCap03 {
 
     public static void main(String[] args) {
 
@@ -15,14 +15,15 @@ public class interfacesFunconais {
         Usuario user2 = new Usuario("Rodrigo Turini", 120);
         Usuario user3 = new Usuario("Guilherme Siveira", 190);
 
+        //entender que estamos criando um objeto do tipo da interface passando a implementacao ArrayList<>() que é uma lista que permite valores repetidos
         List<Usuario> usuarios1 = new ArrayList<>();
 
-        //adicionando usuarios a lista
+        //adicionando usuarios a lista, que sao objetos do tipo Usuario
         usuarios1.add(user1);
         usuarios1.add(user2);
         usuarios1.add(user3);
 
-        //temos um objeto mostrador do tipo Consumer<T>
+        //estamos criando um objeto do tipo da interface Consumer<Objeto>
         Consumer<Usuario> mostrador =  (Usuario u) -> {
             System.out.println(u.getNome());
         };
@@ -30,4 +31,5 @@ public class interfacesFunconais {
         System.out.println("---");
 
     }
+
 }
