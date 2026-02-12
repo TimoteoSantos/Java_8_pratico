@@ -32,13 +32,39 @@ public class interfacesFunconaisCap03 {
         System.out.println("---");
 
         //USANDO UMA INTERFACE FUNCIONAL
-        Validador<String> validarCPDF = new Validador<String>() {
+
+        //passando para a mesma atraves do generics o tipo String
+
+        //criando um objeto do tipo Validador<T> instanciando um Validador e fazendo a implentaçao do metodo validar porque
+        //o Validador é uma interface
+
+        //usando classe anonima
+        Validador<String> validadorCEP = new Validador<String>() {
             @Override
             public boolean valida(String s) {
                 return s.matches("[0-9]{5}-[0-9]{3}");
             }
         };
+        System.out.println(validadorCEP.valida("04101-300"));
+
+        //usando lambdas para interface funcional ou seja uma interface que tem apenas um metodo
+
+        Validador<String> validarCER = valor -> valor.matches("[0-9]{5}-[0-9]{3}");
+
+        //usando a interface Validador<T>
+        //perceber que posso mudar o comportamento do validar da interface
+        Validador<String> validar = s -> s.length() > 5;
+        System.out.println(validar.valida("teste"));
+
+        //o lambdas funciona atraves das interfaces funcionais sem interfaces funcionais nao podemos fazer lambdas
+        Runnable o = () -> {
+            System.out.println("O que sou ? Que lambdas ?");
+        };
+        System.out.println(o);
+        System.out.println(o.getClass());
 
     }
+
+
 
 }
