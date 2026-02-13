@@ -1,5 +1,12 @@
 package br.com.casadocodigo.java8.teste;
 
+/*uma interface funcional é uma interface que contem apenas um metodo abstrato
+porem ela pode ter outros metodos default mas so um e apenas um metodo abstrato
+nao é nescessario deixar explicito que é um metodo abstrato pois os metodos
+que nao sao dafault ja sao por sua natureza abstratos
+nao é obrigatorio fazer a notação @FunctionalInterface mas é uma boa pratica
+* */
+
 import br.com.casadocodigo.java8.Validador;
 import br.com.casadocodigo.java8.usuarios.Usuario;
 
@@ -62,7 +69,6 @@ public class interfacesFunconaisCap03 {
         };
         System.out.println(o);
         System.out.println(o.getClass());
-
     }
 
 

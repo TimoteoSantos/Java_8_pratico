@@ -10,7 +10,6 @@ public class Usuario extends abstractPessoa {
         this.pontos = pontos;
         this.moderador = false;
     }
-
     public String getNome(){
         return this.nome;
     }
