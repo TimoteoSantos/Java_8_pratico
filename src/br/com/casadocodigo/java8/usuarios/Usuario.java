@@ -17,6 +17,12 @@ public class Usuario extends abstractPessoa {
     public int getPontos(){
         return this.pontos;
     }
+    public void setRg(String cpf){
+        this.Rg =  cpf;
+    }
+    public String getRg(){
+        return this.Rg;
+    }
     public void tornaModerador(){
         this.moderador = true;
     }
