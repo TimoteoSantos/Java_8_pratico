@@ -1,4 +1,4 @@
-package br.com.casadocodigo.java8;
+package br.com.casadocodigo.java8.teste.CapituloTerceiro;
 
 @FunctionalInterface //aqui estou explicitamente dizendo que uma interface é uma interface funcional
 public interface Validador<T> {

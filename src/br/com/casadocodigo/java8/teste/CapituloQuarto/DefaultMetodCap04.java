@@ -1,11 +1,11 @@
-package br.com.casadocodigo.java8.teste;
+package br.com.casadocodigo.java8.teste.CapituloQuarto;
 
-import br.com.casadocodigo.java8.Validador;
+import br.com.casadocodigo.java8.teste.CapituloTerceiro.Validador;
 import br.com.casadocodigo.java8.usuarios.Usuario;
 
 import java.util.*;
 import java.util.function.Consumer;
-
+import java.util.function.Predicate;
 
 public class DefaultMetodCap04 {
 
@@ -26,7 +26,7 @@ public class DefaultMetodCap04 {
         //observar que o ArryList tambem tem um genrics mas que é omitido porque ele entende que
         //sera ultilizado o que foi passado para o List<Usuario> ou seja um Usuario
 
-        Set<Usuario> usuarios = new HashSet<>();
+        List<Usuario> usuarios = new ArrayList<>();
         //usando o metodo .add() do ArrayList()
         usuarios.add(user1);
         usuarios.add(user2);
@@ -39,9 +39,10 @@ public class DefaultMetodCap04 {
         //com lambdas
         usuarios.forEach(u -> System.out.println(u.getNome()));
 
-        //criando uma variavel do tipo consumer<T> passando um usuario por generics
-        //depois estou criando um lambdas que mostra o nome de um usuario
-        //esse metodo retorna o nome de um usuario
+        /*criando uma variavel do tipo consumer<T> passando um usuario por generics
+        depois estou criando um lambdas que mostra o nome de um usuario
+        esse metodo retorna o nome de um usuario
+        */
 
         //poredmos criar varias variaveis com implementacoes de interface lambdas e depois chama-las
         Consumer<Usuario> mostrarMensagem = (u -> System.out.println("Estou aparecendo antes de imprimir o nome do usuario"));
@@ -53,10 +54,37 @@ public class DefaultMetodCap04 {
         user1.setRg(sc.next());
 
         //validar a idade se uma pessoa escreveu sua identidade com 8 digitos
-        Validador<Usuario> validarRG = (u-> String.valueOf(u.getRg()).length() < 8);
+        Validador<Usuario> validarRG = (u-> u.getRg().length() > 8);
 
         //chamando as variaveis que contem as implementacoes dos dos metodos que cumprem o contrato de sua interface
-        usuarios.forEach(imprimirNome.andThen(imprimirNome));
+        usuarios.forEach(mostrarMensagem.andThen(imprimirNome));
+
+        //removeIf
+
+        /*
+        a interface Predicato permite testar objetos do tipo Predicate<Objeto>();
+        o metodo removeIf() do predicato permite remover objetos que atendam a condicao de criação do
+        Predicate
+        */
+        Predicate<Usuario> predicado = new Predicate<Usuario>() {
+            public boolean test(Usuario u){
+                return  u.getPontos() > 160;
+             }
+        };
+
+        /*perceba que o removeIf() esta vindo do ArrayList do tipo Usuario() estou passando para ele
+        o objeto predicado que é um objeto do tipo Predicate
+        */
+
+        //forma sem o lambdas
+        usuarios.removeIf(predicado);
+        usuarios.forEach(u -> System.out.println(u.getNome()));
+
+        //com lambdas
+
+
+        //
+
 
     }
 

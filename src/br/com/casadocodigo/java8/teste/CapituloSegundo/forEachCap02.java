@@ -1,6 +1,5 @@
-package br.com.casadocodigo.java8.teste;
+package br.com.casadocodigo.java8.teste.CapituloSegundo;
 
-import br.com.casadocodigo.java8.Mostrador;
 import br.com.casadocodigo.java8.usuarios.Usuario;
 
 import java.util.ArrayList;
