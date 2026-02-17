@@ -1,4 +1,4 @@
-package br.com.casadocodigo.java8.teste.CapituloSegundo;
+package br.com.casadocodigo.java8.testes.CapituloSegundo;
 
 import br.com.casadocodigo.java8.usuarios.Usuario;
 

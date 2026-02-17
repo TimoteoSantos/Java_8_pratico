@@ -1,6 +1,6 @@
-package br.com.casadocodigo.java8.teste.CapituloQuarto;
+package br.com.casadocodigo.java8.testes.CapituloQuarto;
 
-import br.com.casadocodigo.java8.teste.CapituloTerceiro.Validador;
+import br.com.casadocodigo.java8.testes.CapituloTerceiro.Validador;
 import br.com.casadocodigo.java8.usuarios.Usuario;
 
 import java.util.*;
@@ -76,15 +76,15 @@ public class DefaultMetodCap04 {
         o objeto predicado que é um objeto do tipo Predicate
         */
 
-        //forma sem o lambdas
+        //forma sem o lambdas usando a classe anonima criada acima
         usuarios.removeIf(predicado);
         usuarios.forEach(u -> System.out.println(u.getNome()));
 
         //com lambdas
+        usuarios.removeIf(u -> u.getPontos() > 1000);
 
-
-        //
-
+        //aqui implemento o Consumer<T> dizendo o que eu quero mostrar
+        usuarios.forEach(u -> System.out.println(u.getPontos()));
 
     }
 

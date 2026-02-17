@@ -1,4 +1,4 @@
-package br.com.casadocodigo.java8.teste.CapituloTerceiro;
+package br.com.casadocodigo.java8.testes.CapituloTerceiro;
 
 /*uma interface funcional é uma interface que contem apenas um metodo abstrato
 porem ela pode ter outros metodos default mas so um e apenas um metodo abstrato
