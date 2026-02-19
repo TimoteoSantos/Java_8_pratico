@@ -69,7 +69,4 @@ public class interfacesFunconaisCap03 {
         System.out.println(o);
         System.out.println(o.getClass());
     }
-
-
-
 }
