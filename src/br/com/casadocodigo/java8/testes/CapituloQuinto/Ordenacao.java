@@ -59,8 +59,20 @@ public class Ordenacao {
 
        //usando lambdas, entender que o fato de criar o lambdas é como se estivessemos implementando o metodo nao o invocando
         Comparator<Usuario> comparator1 = (u1 , u2) -> u1.getNome().compareTo(u2.getNome());
+        // a coleção sort recebe uma lista e uma implementacao de como ordenar
+        Collections.sort(usuarios, comparator1);
 
+        //fazendo tudo com lambdas em uma unica linha
 
+        Collections.sort(usuarios, (u1 , u2)-> u1.getNome().compareTo(u2.getNome()));
+        usuarios.forEach(u -> System.out.println(u.getNome()));
 
+        //METODO LIST.SORT
+        //usando metodo List.Sort()
+        usuarios.sort((u1, u2) -> u1.getNome().compareTo(u2.getNome()));
+        usuarios.forEach(u-> System.out.println(u.getNome()));
+
+        // METODOS ESTATICOS
+        Comparator<Usuario> comparator2 = Comparator.comparing(u -> u.getNome());
     }
 }
