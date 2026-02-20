@@ -2,10 +2,7 @@ package br.com.casadocodigo.java8.testes.CapituloQuinto;
 
 import br.com.casadocodigo.java8.usuarios.Usuario;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class Ordenacao {
     public static void main(String[] args) {
@@ -73,6 +70,22 @@ public class Ordenacao {
         usuarios.forEach(u-> System.out.println(u.getNome()));
 
         // METODOS ESTATICOS
+        //implementado o metodo da interface Comarator<T> comparing(U , String)
         Comparator<Usuario> comparator2 = Comparator.comparing(u -> u.getNome());
+        //enviar para o metodo da lista .sort() a variavel comparator2 que contem um objeto que sabe logica defina para fazer a comparacao
+        usuarios.sort(comparator2); //aqui ele modifica a lista
+
+        //naturalOrder()
+        List<String> palavras = Arrays.asList("Casa do Código", "Alura", "Caelum");
+
+        palavras.sort(Comparator.naturalOrder());
+
+        //forma concreta
+        for (String palavra : palavras){
+            System.out.println(palavra);
+        }
+        //forma lambdas
+        palavras.forEach(palavra -> System.out.println(palavra));
+
     }
 }
