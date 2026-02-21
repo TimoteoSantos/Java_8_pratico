@@ -3,6 +3,7 @@ package br.com.casadocodigo.java8.testes.CapituloQuinto;
 import br.com.casadocodigo.java8.usuarios.Usuario;
 
 import java.util.*;
+import java.util.function.Function;
 
 public class Ordenacao {
     public static void main(String[] args) {
@@ -86,6 +87,32 @@ public class Ordenacao {
         }
         //forma lambdas
         palavras.forEach(palavra -> System.out.println(palavra));
+
+        //uma funcao que rebe um objto e retorna seus pontos
+        Function<Usuario, Integer> extrairPontos = u -> u.getPontos();
+
+        //função que compara os usuarios a partir dos pontos recebidos
+
+        Comparator<Usuario> comparator3 = Comparator.comparing(extrairPontos);
+
+        //usa o Coparetor para decidir como ordenar a lista
+        usuarios.sort(comparator3);
+
+        /*
+        ]️ Function
+        Define como obter um valor (Integer) a partir de um Usuario
+
+        ️ Comparator
+        Define como comparar dois Usuario usando esse valor
+
+         ️ sort
+        Executa o algoritmo de ordenação e reorganiza a lista
+
+        */
+
+        //lambdas
+        usuarios.sort(Comparator.comparing(u -> u.getPontos()));
+
 
     }
 }
