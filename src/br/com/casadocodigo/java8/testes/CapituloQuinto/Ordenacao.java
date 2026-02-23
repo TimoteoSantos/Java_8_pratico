@@ -99,20 +99,17 @@ public class Ordenacao {
         usuarios.sort(comparator3);
 
         /*
-        ]️ Function
-        Define como obter um valor (Integer) a partir de um Usuario
+        Function
 
-        ️ Comparator
+        ️ Comparator Define como obter um valor (Integer) a partir de um Usuario
         Define como comparar dois Usuario usando esse valor
 
-         ️ sort
+        ️ sort
         Executa o algoritmo de ordenação e reorganiza a lista
-
         */
 
         //lambdas
         usuarios.sort(Comparator.comparing(u -> u.getPontos()));
-
 
     }
 }
