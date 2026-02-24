@@ -4,6 +4,7 @@ import br.com.casadocodigo.java8.usuarios.Usuario;
 
 import java.util.ArrayList;
 import java.util.*;
+import java.util.function.Function;
 
 public class MethodDefault {
     public static void main(String[] args) {
@@ -29,11 +30,29 @@ public class MethodDefault {
         esse metodo define que se passar um usuario ele se torna moderador
         */
 
+        //os dois codigos fazem a mesma coisa mas o ultimo usa methodo default com lambdas
         usuarios.forEach(u -> u.tornaModerador());
+        usuarios.forEach(Usuario::tornaModerador);
 
         //listar o valor do atributo moderador de todos os usuarios
         usuarios.forEach(u -> System.out.println(u.getModerador()));
 
+        //method references no sort
+        //usando o metodo comparing do Comparator para fazer a ordenacao pelo nome
+        //atraves do metodo references
+        usuarios.sort(Comparator.comparing(Usuario::getNome));
+
+        //implementado
+        //extrair o nome do usuario
+        Function<Usuario,String> byName = Usuario::getNome;
+
+        //criar um Compareto que tem como base o nome extraido
+        //fazer a ordenação com sort
+        usuarios.sort(Comparator.comparing(byName));
+
+        //ordenar pelo ponto
+        usuarios.sort(Comparator.comparingInt(u -> u.getPontos()));
+        usuarios.sort(Comparator.comparingInt(Usuario::getPontos));
 
     }
 }

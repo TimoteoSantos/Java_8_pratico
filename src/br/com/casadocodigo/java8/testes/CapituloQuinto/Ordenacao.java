@@ -110,6 +110,5 @@ public class Ordenacao {
 
         //lambdas
         usuarios.sort(Comparator.comparing(u -> u.getPontos()));
-
     }
 }
