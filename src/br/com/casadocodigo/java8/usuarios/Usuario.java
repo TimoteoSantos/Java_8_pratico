@@ -10,6 +10,16 @@ public class Usuario extends abstractPessoa {
         this.pontos = pontos;
         this.moderador = false;
     }
+
+    public Usuario() {
+        super();
+    }
+
+    public Usuario(String nome){
+        this.nome = nome;
+    }
+
+
     public String getNome(){
         return this.nome;
     }
@@ -28,5 +38,14 @@ public class Usuario extends abstractPessoa {
     }
     public boolean getModerador(){
         return moderador;
+    }
+    public void escreverUsuario(){
+        System.out.println(this.nome);
+    }
+
+    //estou dizendo aqui como quero mostrar meu Usuario
+    @Override
+    public String toString() {
+        return "Usuario [ " + nome + " ] [ " + pontos + " ] ";
     }
 }

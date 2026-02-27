@@ -9,4 +9,6 @@ public abstract class abstractPessoa {
         public abstractPessoa(String nome){
             this.nome = nome;
         }
+
+        public abstractPessoa(){}
 }

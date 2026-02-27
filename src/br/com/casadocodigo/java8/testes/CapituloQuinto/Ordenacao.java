@@ -100,7 +100,6 @@ public class Ordenacao {
 
         /*
         Function
-
         ️ Comparator Define como obter um valor (Integer) a partir de um Usuario
         Define como comparar dois Usuario usando esse valor
 
@@ -108,7 +107,24 @@ public class Ordenacao {
         Executa o algoritmo de ordenação e reorganiza a lista
         */
 
-        //lambdas
+        //1. chamando o metodo sort() da List
+        //2. chamando o metodo que consegue saber a diferenca entre os objetos o Comparator.comparing(argumento)
+        //3. passando como argumento os pontos do usuario da vez
         usuarios.sort(Comparator.comparing(u -> u.getPontos()));
+
+        //quando retornar int melhor usar assim
+        usuarios.sort(Comparator.comparingInt(Usuario::getPontos)); //melhor performace ja que voce quer ser bom em performace
+
+        //criterios de ordenação se houverem dois usuarios com mesmo ponto o sistema ira levar em consideração
+        //o nome do usuario
+        Comparator<Usuario> c =  Comparator.comparingInt(Usuario::getPontos).thenComparing(Usuario::getNome);
+
+        //para que possamos colocar os usuarios nulo no final da fila usamos o Comarator.nullLaster
+       usuarios.sort(Comparator.nullsLast(Comparator.comparing(Usuario::getNome)));
+
+       //metodo reversed() ordena de forma descrecente
+        usuarios.sort(Comparator.comparingInt(Usuario::getPontos));
+        usuarios.forEach(u -> System.out.println(u.getPontos()));
+
     }
 }

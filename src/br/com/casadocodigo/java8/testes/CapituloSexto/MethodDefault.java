@@ -4,7 +4,9 @@ import br.com.casadocodigo.java8.usuarios.Usuario;
 
 import java.util.ArrayList;
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class MethodDefault {
     public static void main(String[] args) {
@@ -53,6 +55,57 @@ public class MethodDefault {
         //ordenar pelo ponto
         usuarios.sort(Comparator.comparingInt(u -> u.getPontos()));
         usuarios.sort(Comparator.comparingInt(Usuario::getPontos));
+
+        //chamando um metodo com lambdas atraves do forEach
+        usuarios.forEach(u -> u.escreverUsuario());
+        //acessando o metodo usando methods references
+        usuarios.forEach(Usuario::escreverUsuario);
+
+        //FAZENDO COMPARAÇOES COM METHODS REFERENCES
+        usuarios.sort(Comparator.comparingInt(u -> u.getPontos()));
+        usuarios.sort(Comparator.comparingInt(Usuario::getPontos));
+
+        //REFERENCIANDO METODO DE INSTANCIAS
+        Usuario rodrigo = new Usuario("Rodrigo Turini", 120);
+
+        //usando o lambdas
+        Runnable bloco2 = () -> rodrigo.tornaModerador();
+        //fazendo a mesma coisa mas com metodos de instancia
+        Runnable bloco = rodrigo::tornaModerador;
+        bloco.run();
+
+        //tonando o objeto user um moderador
+        Runnable teste = user::tornaModerador;
+
+        //é como se eu tivesse implementado um metodo que escreve esse print mas fiz sem nenhuma classe eureca
+        Runnable soma = () -> System.out.println(3+3);
+        soma.run();
+
+        //a variavel mensagem recebe uma funçao que foi implementada de acordo com a especificação da interface Runnable
+        //que é uma interface que nao rece nada nem retorna nada
+        Runnable mensagem = () -> System.out.println("sou filho orfao");
+        //usando o metodo run() da interface Runnable que esta contido no bojeto mensagem
+        mensagem.run();
+
+        //a cada loop teremos um objeto do tipo Usuario as duas implementaçoes a seguir sao equivalentes
+        usuarios.forEach(u -> System.out.println(u.getNome()));
+        usuarios.forEach(System.out::println);
+
+        //referenciando construtores
+        Supplier<Usuario> criaDorDeUsuario =  Usuario::new;
+        Usuario novo = criaDorDeUsuario.get();
+
+        //usando a interface Function porque ela pode receber uma entrada e eu irei usar uma string como entrda
+        //aqui vc pode escloher que tipo entra
+        Function<String,Usuario> criarUsuarios = Usuario::new;
+        //agora iremos passar dados para o construtor do Usuario
+        Usuario rodrigo2 = criarUsuarios.apply("TIMOTEO");
+        Usuario pauloSilveira = criarUsuarios.apply("Paulo Silveira");
+
+        //criar um usuario com dois parametros
+        BiFunction<String, Integer, Usuario> criarUsuarioDoisParametros = Usuario::new;
+        Usuario novo2 = criarUsuarioDoisParametros.apply("timoteo santos", 220);
+        Usuario novo3 = criarUsuarioDoisParametros.apply("tiago jose ", 399);
 
     }
 }
