@@ -107,5 +107,6 @@ public class MethodDefault {
         Usuario novo2 = criarUsuarioDoisParametros.apply("timoteo santos", 220);
         Usuario novo3 = criarUsuarioDoisParametros.apply("tiago jose ", 399);
 
+
     }
 }
