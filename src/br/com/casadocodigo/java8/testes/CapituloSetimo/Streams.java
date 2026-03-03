@@ -2,11 +2,11 @@ package br.com.casadocodigo.java8.testes.CapituloSetimo;
 
 import br.com.casadocodigo.java8.usuarios.Usuario;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.BiFunction;
+import java.util.stream.Stream;
 
 public class Streams {
 
@@ -44,6 +44,38 @@ public class Streams {
                 .forEach(Usuario::tornaModerador);
         */
 
+        //percorrerr uma lista com um for chamando o metodo que torna um usuario um moderador
+        for(Usuario usuario: usuarios){
+            //se um usuario tiver mais que 100 pontos
+            if (usuario.getPontos() > 100){
+                //metodo que torna um usuario um moderador
+                usuario.tornaModerador();
+            }
+        }
 
+        //UTILIZANDO STREAMS
+
+        //estudar esse return na expressao lambdas
+        Stream<Usuario> stream = usuarios.stream();
+        stream.filter(u -> {return u.getPontos() > 100; });
+
+        //removendo o return
+        //stream.filter(u -> u.getPontos() > 100);
+
+        //sem ultilizar a variavel temporaria stream diretamente na lista
+        usuarios.stream().filter(u -> u.getPontos() > 100);
+
+        //Stream nao  altera a lista ele cria uma nova lista
+        Stream<Usuario> stream2 = usuarios.stream().filter(u -> u.getPontos() > 100);
+        stream2.forEach(System.out::println);
+        usuarios.forEach(System.out::println);
+
+        //podemos encadear as operações do stream
+
+
+        // a Stream foi pensada para ser execultada uma unica vez como por exemplo
+        //verificar um cpf se precisar em outra parte ou outro momento tera que fazer novamente
+        //porque ela nao guarda as informações é uma operação solitaria
+        usuarios.stream().filter(u -> u.getPontos() >100).forEach(System.out::println);
     }
 }
