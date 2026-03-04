@@ -2,6 +2,7 @@ package br.com.casadocodigo.java8.testes.CapituloSetimo;
 
 import br.com.casadocodigo.java8.usuarios.Usuario;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -72,10 +73,22 @@ public class Streams {
 
         //podemos encadear as operações do stream
 
-
         // a Stream foi pensada para ser execultada uma unica vez como por exemplo
         //verificar um cpf se precisar em outra parte ou outro momento tera que fazer novamente
         //porque ela nao guarda as informações é uma operação solitaria
-        usuarios.stream().filter(u -> u.getPontos() >100).forEach(System.out::println);
+        usuarios.stream().filter(u -> u.getPontos() > 100).forEach(System.out::println);
+
+        //pegando o retorno de um Stream
+
+        //estou criando uma lista
+        List<Usuario> maisQue100 = new ArrayList<>();
+
+        //adicionando os usuarios que tem mais que cem pontos nessa lista
+        usuarios.stream().filter(u -> u.getPontos() > 100).forEach(u -> maisQue100.add(u));
+
+        //AGORA IREMOS USAR METHOS REFERENCES
+        usuarios.stream().filter(u -> u.getPontos() > 100).forEach(maisQue100::add);
+
+
     }
 }
