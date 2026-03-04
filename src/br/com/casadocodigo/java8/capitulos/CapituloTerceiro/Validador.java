@@ -1,4 +1,4 @@
-package br.com.casadocodigo.java8.testes.CapituloTerceiro;
+package br.com.casadocodigo.java8.capitulos.CapituloTerceiro;
 
 //aqui estou explicitamente dizendo que uma interface é uma interface funcional
 @FunctionalInterface

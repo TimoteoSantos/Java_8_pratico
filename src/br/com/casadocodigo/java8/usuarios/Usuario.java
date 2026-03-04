@@ -14,16 +14,12 @@ public class Usuario extends abstractPessoa {
     public Usuario() {
         super();
     }
-
     public Usuario(String nome){
         this.nome = nome;
     }
-
-
     public String getNome(){
         return this.nome;
     }
-
     public int getPontos(){
         return this.pontos;
     }
@@ -33,9 +29,8 @@ public class Usuario extends abstractPessoa {
     public String getRg(){
         return this.Rg;
     }
-    public void tornaModerador(){
-        this.moderador = true;
-    }
+    public void tornaModerador(){this.moderador = true;}
+    public boolean isModerador(){return moderador;}
     public boolean getModerador(){
         return moderador;
     }

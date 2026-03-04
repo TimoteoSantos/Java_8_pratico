@@ -1,4 +1,4 @@
-package br.com.casadocodigo.java8.testes.CapituloTerceiro;
+package br.com.casadocodigo.java8.capitulos.CapituloTerceiro;
 
 /*uma interface funcional é uma interface que contem apenas um metodo abstrato
 porem ela pode ter outros metodos default mas so um e apenas um metodo abstrato
@@ -11,6 +11,7 @@ import br.com.casadocodigo.java8.usuarios.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
 public class interfacesFunconaisCap03 {
@@ -69,5 +70,9 @@ public class interfacesFunconaisCap03 {
         System.out.println(o);
         System.out.println(o.getClass());
 
+        //um tipo de interface que tem dois parametros
+        BiFunction<Integer, Integer, Integer> soma = (numero1, numero2) -> numero1 + numero2;
+
+        System.out.println(soma.apply(5, 3)); // 8
     }
 }

@@ -1,6 +1,6 @@
-package br.com.casadocodigo.java8.testes.CapituloQuarto;
+package br.com.casadocodigo.java8.capitulos.CapituloQuarto;
 
-import br.com.casadocodigo.java8.testes.CapituloTerceiro.Validador;
+import br.com.casadocodigo.java8.capitulos.CapituloTerceiro.Validador;
 import br.com.casadocodigo.java8.usuarios.Usuario;
 
 import java.util.*;

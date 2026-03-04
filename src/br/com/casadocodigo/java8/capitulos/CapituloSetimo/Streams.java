@@ -1,4 +1,4 @@
-package br.com.casadocodigo.java8.testes.CapituloSetimo;
+package br.com.casadocodigo.java8.capitulos.CapituloSetimo;
 
 import br.com.casadocodigo.java8.usuarios.Usuario;
 
@@ -89,6 +89,17 @@ public class Streams {
         //AGORA IREMOS USAR METHOS REFERENCES
         usuarios.stream().filter(u -> u.getPontos() > 100).forEach(maisQue100::add);
 
+        //filtrar usuarios e trona-los moderadores
+
+        /* 1. Criamos um Stream a partir da lista de usuarios
+           2. Definimos um fitlro para selecionar com mais de 100 porntos
+           3. A execulcao acontece na operacao terminal forEach()
+           4. Para cada usuario filtrado, chamamos o metodo tornarModerador()
+        * */
+        usuarios.stream().filter(u -> u.getPontos() > 100).forEach(Usuario::tornaModerador);
+
+        //verificar se um usuario é um moderador
+        usuarios.stream().filter(Usuario::isModerador);
 
     }
 }
