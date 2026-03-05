@@ -25,7 +25,7 @@ public class MethodDefault {
         usuarios.add(user2);
 
         //litar o atributo moderador antesde aplicar o metodo que torna um usuario moderador
-        usuarios.forEach(u -> System.out.println(u.getModerador()));
+        usuarios.forEach(u -> System.out.println(u.isModerador()));
 
         /* percorrer todos os usuarios com foreach
         depois chamar o metodo tornarModerador
@@ -37,7 +37,7 @@ public class MethodDefault {
         usuarios.forEach(Usuario::tornaModerador);
 
         //listar o valor do atributo moderador de todos os usuarios
-        usuarios.forEach(u -> System.out.println(u.getModerador()));
+        usuarios.forEach(u -> System.out.println(u.isModerador()));
 
         //method references no sort
         //usando o metodo comparing do Comparator para fazer a ordenacao pelo nome

@@ -47,6 +47,9 @@ public class Streams {
 
         //percorrerr uma lista com um for chamando o metodo que torna um usuario um moderador
         for(Usuario usuario: usuarios){
+
+            System.out.println(usuario.getNome() + "Assim acesso elementos da lista");
+
             //se um usuario tiver mais que 100 pontos
             if (usuario.getPontos() > 100){
                 //metodo que torna um usuario um moderador
@@ -78,17 +81,6 @@ public class Streams {
         //porque ela nao guarda as informações é uma operação solitaria
         usuarios.stream().filter(u -> u.getPontos() > 100).forEach(System.out::println);
 
-        //pegando o retorno de um Stream
-
-        //estou criando uma lista
-        List<Usuario> maisQue100 = new ArrayList<>();
-
-        //adicionando os usuarios que tem mais que cem pontos nessa lista
-        usuarios.stream().filter(u -> u.getPontos() > 100).forEach(u -> maisQue100.add(u));
-
-        //AGORA IREMOS USAR METHOS REFERENCES
-        usuarios.stream().filter(u -> u.getPontos() > 100).forEach(maisQue100::add);
-
         //filtrar usuarios e trona-los moderadores
 
         /* 1. Criamos um Stream a partir da lista de usuarios
@@ -99,7 +91,20 @@ public class Streams {
         usuarios.stream().filter(u -> u.getPontos() > 100).forEach(Usuario::tornaModerador);
 
         //verificar se um usuario é um moderador
+
+        //enviando apra a stream
+        //o filtro é referente a um objeto ser um moderador ou seja true
+        //se ele for true ele é filtrado
         usuarios.stream().filter(Usuario::isModerador);
+
+        //estou criando uma lista
+        List<Usuario> maisQue100 = new ArrayList<>();
+
+        //adicionando os usuarios que tem mais que cem pontos nessa lista
+        usuarios.stream().filter(u -> u.getPontos() > 100).forEach(u -> maisQue100.add(u));
+
+        //AGORA IREMOS USAR METHOS REFERENCES
+        usuarios.stream().filter(u -> u.getPontos() > 100).forEach(maisQue100::add);
 
     }
 }

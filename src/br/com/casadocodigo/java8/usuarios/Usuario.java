@@ -31,9 +31,6 @@ public class Usuario extends abstractPessoa {
     }
     public void tornaModerador(){this.moderador = true;}
     public boolean isModerador(){return moderador;}
-    public boolean getModerador(){
-        return moderador;
-    }
     public void escreverUsuario(){
         System.out.println(this.nome);
     }
