@@ -29,7 +29,9 @@ public class Usuario extends abstractPessoa {
     public String getRg(){
         return this.Rg;
     }
-    public void tornaModerador(){this.moderador = true;}
+    public void tornaModerador(){
+        this.moderador = true;
+    }
     public boolean isModerador(){return moderador;}
     public void escreverUsuario(){
         System.out.println(this.nome);

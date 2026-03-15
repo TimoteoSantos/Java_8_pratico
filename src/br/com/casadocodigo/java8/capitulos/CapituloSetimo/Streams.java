@@ -1,12 +1,11 @@
 package br.com.casadocodigo.java8.capitulos.CapituloSetimo;
 
 import br.com.casadocodigo.java8.usuarios.Usuario;
+import javafx.scene.control.ListViewBuilder;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Streams {
@@ -105,6 +104,46 @@ public class Streams {
 
         //AGORA IREMOS USAR METHOS REFERENCES
         usuarios.stream().filter(u -> u.getPontos() > 100).forEach(maisQue100::add);
+
+        //OBTENDO UMA LISTA DE VOLTA
+        // o forEach é void
+        // o filter devolve um Stream
+        //como poderia ter uma lista a partir da minha selecao
+
+        //driando uma objeto do tipo Usuario que é uma lista ou seja uma nova lista do tipo usuario
+        List<Usuario> maisQue100Pontos = new ArrayList<>();
+
+        //olha que pulo do gato esto adicionando a uma lista os dados que sao do filtro de todos os usuarios
+        //que tem mais do que 100 pontos sangue de cristo quanta informação
+
+        usuarios.stream().filter(u -> u.getPontos() > 100).forEach(u -> maisQue100Pontos.add(u));
+
+        //usando method references
+        usuarios.stream().filter(u -> u.getPontos() > 100).forEach(maisQue100Pontos::add);
+
+        //coletando o retono de um filter
+        List<Usuario> listaComMaisQeuCem = usuarios.stream().filter(u -> u.getPontos() > 100 ).collect(Collectors.toList());
+
+        //retornando um set<Usuario>
+        Set<Usuario> setMaisQueCem = usuarios.stream().filter(u -> u.getPontos() > 100).collect(Collectors.toSet());
+
+        // # assunto para estudar
+
+        //metodo que permite que escohemos qual a colecao que sera devolvida
+        Set<Usuario> set = stream.collect(Collectors.toCollection(HashSet::new));
+
+        //pegar apenas os pontos dos usuarios
+        //podemos fazer da seguinte forma
+
+        //criar uma lista e adicionar os pontos dos usuarios sera uma lista de pontos
+        List<Integer> pontos = new ArrayList<>();
+        usuarios.forEach(u -> pontos.add(u.getPontos()));
+        pontos.forEach(u -> System.out.println(u));
+
+        //usando map
+
+
+
 
     }
 }

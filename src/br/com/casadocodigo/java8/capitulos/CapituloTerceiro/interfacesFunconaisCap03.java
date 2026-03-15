@@ -72,7 +72,8 @@ public class interfacesFunconaisCap03 {
 
         //um tipo de interface que tem dois parametros
         BiFunction<Integer, Integer, Integer> soma = (numero1, numero2) -> numero1 + numero2;
-
         System.out.println(soma.apply(5, 3)); // 8
+
+
     }
 }
