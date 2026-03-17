@@ -6,6 +6,7 @@ import javafx.scene.control.ListViewBuilder;
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Streams {
@@ -130,7 +131,7 @@ public class Streams {
         // # assunto para estudar
 
         //metodo que permite que escohemos qual a colecao que sera devolvida
-        Set<Usuario> set = stream.collect(Collectors.toCollection(HashSet::new));
+        //Set<Usuario> set = stream.collect(Collectors.toCollection(HashSet::new));
 
         //pegar apenas os pontos dos usuarios
         //podemos fazer da seguinte forma
@@ -140,10 +141,50 @@ public class Streams {
         usuarios.forEach(u -> pontos.add(u.getPontos()));
         pontos.forEach(u -> System.out.println(u));
 
-        //usando map
+        //USANDO O METODO MAP DO STREAM
 
+        //nesse codigo abaixo estamos criando uma lista de pontos de todos os usuarios
+        //perceber que estamos enviando numeros inteiros e recebendo Integer que é um objeto
+        //o processamento do java para transformar de inteiro para Integer pode causar mais
+        //processamento em grandes quantidades de registros ou de objetos
 
+        List<Integer> pontosNovo = usuarios.stream().map(Usuario::getPontos).collect(Collectors.toList());
+        //imprimindo o novo array criado com map
+        pontosNovo.forEach(u -> System.out.println(u));
 
+        //para  que nao seja nescessario fazer a conversao podemos usar o IntStream
+
+        //criando uma variavel que recebe
+        IntStream stream1 = usuarios.stream().mapToInt(Usuario::getPontos);
+
+        //verificar a media de pontos dos usuarios
+
+        //criar uma variavel temporaria
+        double totalDePontos = 0;
+        //percorrer os usuarios
+        for (Usuario u : usuarios){
+            //somar os pontos de cada usuario
+            totalDePontos += u.getPontos();
+        }
+
+        double mediaDosPontos = totalDePontos / usuarios.size();
+        System.out.println("A MEDIA DE PONTOS FOI DE: " + mediaDosPontos);
+
+        //USANDO O STREAM PARA REALIZAR A MESMA OPERACAO
+        double pontuacaoMedia =
+                //lista de usuarios
+                usuarios.
+                        //aplicando a interface stream no Lis entra em um fluxo de trabalho do stream
+                stream().
+                        //extrair os pontos dos usuarios
+                mapToInt(Usuario::getPontos).
+                        //metodo do stream que calcula a media e retorna um objeto do tipo OptionalDouble
+                average().
+                        //agora estamos acessando o OptionalDouble e extraindo o valor como um double
+                getAsDouble();
+
+        //teremos o mesmo resultado porem usando uma melhor abordagem
+        System.out.println("A PONTUACAO MEDIA FOI DE " + pontuacaoMedia);
 
     }
 }
