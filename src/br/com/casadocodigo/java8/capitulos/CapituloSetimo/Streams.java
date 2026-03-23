@@ -3,6 +3,7 @@ package br.com.casadocodigo.java8.capitulos.CapituloSetimo;
 import br.com.casadocodigo.java8.usuarios.Usuario;
 import javafx.scene.control.ListViewBuilder;
 
+import javax.swing.text.html.Option;
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
@@ -185,6 +186,40 @@ public class Streams {
 
         //teremos o mesmo resultado porem usando uma melhor abordagem
         System.out.println("A PONTUACAO MEDIA FOI DE " + pontuacaoMedia);
+
+        //no exemplo acima vimos como verificar a media atraves do metodo average() do stream que nasceu para
+        //que quando uma lista for vazia nao tenhamos que fazer um if para verificar ele mesmo faz isso internamente
+
+        //encontrando o usuario com maior ponto
+        Optional<Usuario> max = usuarios.stream().max(Comparator.comparing(Usuario::getPontos));
+        System.out.println("O usuario com maior ponto foi" + max + "Quem escreveu isso foi o toString de Usuarios");
+
+        //estou criando uma variavel do 
+        OptionalDouble media = usuarios.stream().mapToInt(Usuario::getPontos).average();
+        double pontuacaoMediaNovo = media.orElse(5.5);
+        System.out.println(pontuacaoMediaNovo);
+
+        //relembrando como extrair os pontos de um usuario
+
+        //fazendo isso com uma variavel de controle
+        List<Integer> pontos2 = new  ArrayList<>();
+        usuarios.forEach(u -> pontos2.add(u.getPontos()));
+
+
+        //lancar uma exceçao ao fazer uma media caso ela seja vazia
+        double pontuacaoMedia3 = usuarios.stream().mapToInt(Usuario::getPontos).average().orElseThrow(IllegalStateException::new);
+
+
+        //verificar o usuario com maior quantidade de pontos e tratando se a lista for vazia
+
+        // usando a interface optional para receber um usuario que nesse caso é o que tem o maior ponto
+        //que foi definido no ComparingInt() e execultado pelo metodo max que recebe esse comparing
+        //isso porque ele precisa comparar para saber quem tem o maior ponto
+
+        //lembrando que nao o max2 nao é uma lista mas um objeto retornado ou seja o objeto com maior numeros de pontos
+        //o Optional serve para que se uma lsita for vazia o programa nao gerar um erro
+        Optional <Usuario> max2 = usuarios.stream().max(Comparator.comparingInt(Usuario::getPontos));
+        System.out.println(max2 + "valor retornado do optional");
 
     }
 }
