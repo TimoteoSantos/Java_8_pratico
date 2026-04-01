@@ -6,6 +6,8 @@ import javafx.scene.control.ListViewBuilder;
 import javax.swing.text.html.Option;
 import java.util.*;
 import java.util.function.BiFunction;
+import java.util.function.IntBinaryOperator;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -205,10 +207,8 @@ public class Streams {
         List<Integer> pontos2 = new  ArrayList<>();
         usuarios.forEach(u -> pontos2.add(u.getPontos()));
 
-
         //lancar uma exceçao ao fazer uma media caso ela seja vazia
         double pontuacaoMedia3 = usuarios.stream().mapToInt(Usuario::getPontos).average().orElseThrow(IllegalStateException::new);
-
 
         //verificar o usuario com maior quantidade de pontos e tratando se a lista for vazia
 
@@ -220,6 +220,103 @@ public class Streams {
         //o Optional serve para que se uma lsita for vazia o programa nao gerar um erro
         Optional <Usuario> max2 = usuarios.stream().max(Comparator.comparingInt(Usuario::getPontos));
         System.out.println(max2 + "valor retornado do optional");
+
+        Optional<String> maxNome = usuarios
+                .stream()
+                .max(Comparator.comparingInt(Usuario::getPontos))
+                .map(u-> u.getNome());
+
+        System.out.println(maxNome + "ESSE FOI O USUARIO COM MAIS PONTOS");
+
+        //ordernando um stream
+        usuarios.stream(). // chamando a interface stream
+                filter(u -> u.getPontos() > 100). //filtrando os usuarios a partir de criterios
+                sorted(Comparator.comparing(Usuario::getPontos)); // ordenando passando uma forma de comparar
+
+        /*a diferenca entre chamar um metodo sort e sorted da stream é que
+        * na stream nao ha mudanca no array */
+
+        //talvez seja interessante ou necessario salvamos o resultado para ultilizado posteriormente
+        List<Usuario> filtradosOrdenados =
+                usuarios.stream(). //invocando a interface stream
+                        filter(u -> u.getPontos() > 100). //filtrando os dados
+                        sorted(Comparator.comparing(Usuario::getPontos)).//ordenando
+                        collect(Collectors.toList()); // pegarndo o redotno de adicionando a lista
+
+        //pegar apenas um usuario que tenha mais de 100 pontos
+        Usuario maisDeCemPontos = usuarios.stream(). //entrano no stream
+                                            filter(u ->u.getPontos() > 100). //filtrando usuarios
+                                            sorted(Comparator.comparing(Usuario::getPontos)).//ordenando pelos pontos
+                                            collect(Collectors.toList()).get(0);// pegando o primeiro usuario
+
+
+        Optional<Usuario> usuarioOptional = usuarios.stream().
+                                            filter(u ->u.getPontos() > 100).
+                                            findAny();
+
+
+            //operações de redução
+            //operações que ultilizam stream para retornar um valor final
+            //são chamado de redução ou reduction um exemplo é o average que retorna valor medio
+
+            //existem outros como o count min max sum
+            //min e max usam Comparator como argumento -> precisam comparar para distiguir os elementos
+            //sum e count usam um Optional -> nao precisam distinguir apenas fazer a operaçao
+
+            Optional<Usuario> valorMaximo = usuarios.stream().max(Comparator.comparing(Usuario::getPontos));
+            Usuario maximaPontuacao = max.get();
+
+            //se desejarmos somar todos os pontos dos usuarios fazemos
+            int total = usuarios.stream().//entra na pilha stream
+                        mapToInt(Usuario::getPontos).//transforma um usuario em seus pontos
+                        sum();//soma os pontos dos usuarios
+
+            int totalPontosMaioresQueCem = usuarios.stream().
+                                            filter(u ->u.getPontos() > 100).
+                                            mapToInt(Usuario::getPontos).sum();
+        //escrevendo o resultado
+        System.out.println(totalPontosMaioresQueCem + "ESSA FOI A SOMA TOTAL DOS USUARIOS QUE TIVERAM MAIS QUE CEM PONTOS");
+        //criando um for de usuarios
+        usuarios.forEach(u -> System.out.println("ESSE É O USUARIO DA VEZ"+ u.getNome()));
+
+        //IntBinaryOperator é uma interface que recebe dois numeros inteiros e devolve um
+        int valorInicial = 0;
+        IntBinaryOperator operacao = (a , b) -> a + b;
+
+        // testando predicate
+        //retona se o objeto esta como moderador
+        boolean hasModerador = usuarios.stream().anyMatch(Usuario::isModerador);
+        System.out.println(hasModerador);//escreve o retorno
+
+        //saber quantos elementos tem em um stream
+        long quantidadeElementos = usuarios.stream().count();
+        System.out.println(quantidadeElementos);
+
+        //criar um objeto do tipo radom
+        Random random = new Random(0);
+        //cria um lambdas que cria um numero randomico
+        Supplier<Integer> supplier = () -> random.nextInt();
+        //chama funcao adicionando o resutado a adicionar
+        Stream<Integer> streamRandom =  Stream.generate(supplier);
+
+        //quando precisamos modificar um objeto do stream usamos o interator
+        usuarios.stream().iterator()
+                .forEachRemaining(System.out::println);
+
+        //para saber se algum elemento da lista é um moderador ou seja que tem uma caracterisca
+        boolean hasModerador2 = usuarios.stream().anyMatch(Usuario::isModerador);
+        //no codigo acima estamos vendo que podemos verificar se um usuario é um moderador apenas ultilizando
+        //uma linha
+
+        
+        //ultilizando codigo antigo poderiamos fazer assim
+
+        for (Usuario usuario: usuarios){
+            if (usuario.isModerador()){
+            System.out.println("O usuario" + usuario.getNome() + "é moderador");
+            }
+        }
+
 
     }
 }
