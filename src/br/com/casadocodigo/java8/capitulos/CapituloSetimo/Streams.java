@@ -249,11 +249,9 @@ public class Streams {
                                             sorted(Comparator.comparing(Usuario::getPontos)).//ordenando pelos pontos
                                             collect(Collectors.toList()).get(0);// pegando o primeiro usuario
 
-
         Optional<Usuario> usuarioOptional = usuarios.stream().
                                             filter(u ->u.getPontos() > 100).
                                             findAny();
-
 
             //operações de redução
             //operações que ultilizam stream para retornar um valor final
@@ -305,10 +303,9 @@ public class Streams {
 
         //para saber se algum elemento da lista é um moderador ou seja que tem uma caracterisca
         boolean hasModerador2 = usuarios.stream().anyMatch(Usuario::isModerador);
+
         //no codigo acima estamos vendo que podemos verificar se um usuario é um moderador apenas ultilizando
         //uma linha
-
-        
         //ultilizando codigo antigo poderiamos fazer assim
 
         for (Usuario usuario: usuarios){
@@ -317,6 +314,17 @@ public class Streams {
             }
         }
 
+        // Gera um fluxo infinito de números da sequência de Fibonacci usando a classe Fibonacci (IntSupplier),
+        // limita aos 10 primeiros valores e imprime cada um no console
+        IntStream.generate(new Fibonacci()).limit(10).forEach(System.out::println);
 
+        //pegando o primeiro elemento maior que 100
+        int maiorQue100 = IntStream //entrano fluxo InStream
+                .generate(new Fibonacci())//cria numeros infinitamente fibonance
+                .filter(f-> f > 100)// filtra os que tem valor maior que 100
+                .findFirst()// pegao o primeiro numero que aparecer
+                .getAsInt(); // extrai o valor como um inteiro
+
+        System.out.println(maiorQue100);// escreve no console
     }
 }
