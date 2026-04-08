@@ -326,5 +326,6 @@ public class Streams {
                 .getAsInt(); // extrai o valor como um inteiro
 
         System.out.println(maiorQue100);// escreve no console
+        
     }
 }

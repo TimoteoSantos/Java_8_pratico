@@ -1,0 +1,18 @@
+🚀 Regra prática (pra vida)
+
+Antes de escrever um Stream, pense:
+
+Vou reduzir dados?
+👉 filter primeiro
+Vou transformar?
+👉 map
+Preciso ordenar?
+👉 só depois de reduzir
+Quero o resultado final?
+👉 collect
+
+
+1. Interface Funcional
+2. Lambdas
+3. Methods References
+
