@@ -3,8 +3,8 @@ package br.com.casadocodigo.java8.projetoDoLivro.Payment;
 import br.com.casadocodigo.java8.projetoDoLivro.Customer.Customer;
 import br.com.casadocodigo.java8.projetoDoLivro.Product.Product;
 
-import java.beans.Customizer;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,6 +33,14 @@ public class Payment {
     }
 
     public LocalDateTime getDate(){
-        
+        return this.date;
+    }
+    public Customer getCustomer(){
+        return this.customer;
+    }
+    //Estamos sobrescrevendo o metodo toString da classe object
+    public String toString(){
+        return "[Payment: " + date.format(DateTimeFormatter.ofPattern("dd/MM/yyy")) + " "
+                + customer + " " + products + "]";
     }
 }
