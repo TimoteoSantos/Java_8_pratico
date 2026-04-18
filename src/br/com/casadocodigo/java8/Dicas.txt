@@ -19,3 +19,10 @@ Quero o resultado final?
 5. Map
 6. groupingBy e partitioningBy
 7. Paralelização
+
+filter → escolher alguns elementos
+map → transformar
+reduce → juntar tudo
+
+
+

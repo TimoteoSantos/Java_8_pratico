@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.List;
 
 import static java.util.Arrays.asList;
 
@@ -22,8 +24,10 @@ public class Testes {
         Customer adriano = new Customer("Adriano Almeida");
 
         //criando novos produtos
-        //observar que ao passar o paramentro estamos instanciando os objetos
+        //observar que ao passar o paramentro estamos instanciando os objetos que sao o
+        //nome do produto onde esta o arquivo e o preco
         //ou seja em tempo de execulçao
+
         Product bach = new Product("Bach Completo",
                 Paths.get("/music/bach.mp3"), new BigDecimal(100));
         Product poderosas = new Product("Poderosas Anita",
@@ -49,7 +53,29 @@ public class Testes {
         //criando os pagamentos
         //prestar atenção nos parametros enviados o primeito é um paramtro que é uma lista
         //por isso estamos enviando uma lista
-        Payment payment = new Payment(asList(bach, poderosas), today, paulo);
 
+
+        //observar o construtor que pede uma lista com  os produtos, a data atual e o consumidor
+        Payment payment1 =
+                new Payment(asList(bach, poderosas), today, paulo);
+        Payment payment2 =
+        new Payment(asList(bach, bandeira, amelie), yesterday, rodrigo);
+        Payment payment3 =
+                new Payment(asList(beauty, vingadores, bach), today, adriano);
+        Payment payment4 =
+                new Payment(asList(bach, poderosas, amelie), lastMonth, guilherme);
+        Payment payment5 =
+                new Payment(asList(beauty, amelie), yesterday, paulo);
+
+        //criando uma lista com os pagamentos
+        List<Payment> payments = asList(payment1, payment2,
+                payment3, payment4, payment5);
+
+        //ORDENAR
+        payments.stream() //estou entrarndo em um fluxo do stream
+                .sorted(Comparator.comparing(Payment::getDate)). //operacao lazy ou seja nao execulta nada ela é chamada intermediaria
+                forEach(System.out::println);// uma operacao terminal ela execulta
+
+        //
     }
 }

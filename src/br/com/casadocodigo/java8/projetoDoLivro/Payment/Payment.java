@@ -38,6 +38,7 @@ public class Payment {
     public Customer getCustomer(){
         return this.customer;
     }
+
     //Estamos sobrescrevendo o metodo toString da classe object
     public String toString(){
         return "[Payment: " + date.format(DateTimeFormatter.ofPattern("dd/MM/yyy")) + " "
