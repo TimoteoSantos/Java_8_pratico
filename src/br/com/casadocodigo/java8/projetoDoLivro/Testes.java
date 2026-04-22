@@ -54,7 +54,6 @@ public class Testes {
         //prestar atenção nos parametros enviados o primeito é um paramtro que é uma lista
         //por isso estamos enviando uma lista
 
-
         //observar o construtor que pede uma lista com  os produtos, a data atual e o consumidor
         Payment payment1 =
                 new Payment(asList(bach, poderosas), today, paulo);
@@ -76,6 +75,12 @@ public class Testes {
                 .sorted(Comparator.comparing(Payment::getDate)). //operacao lazy ou seja nao execulta nada ela é chamada intermediaria
                 forEach(System.out::println);// uma operacao terminal ela execulta
 
-        //
+        //CALCULANDO O VALOR TOTAL DO PAGAMENTO pyment1 o BigDecimal nao tem um metodo que faz a soma
+        //teremos que criar esse metodo usando o lambdas
+
+        payment1.getProducts().stream()
+                .map(Product::getPrice)
+                .reduce(BigDecimal::add)
+                .ifPresent(System.out::println);
     }
 }
