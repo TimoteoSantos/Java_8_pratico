@@ -26,19 +26,16 @@ public class Payment {
         this.date = date;
         this.customer = customer;
     }
-
     //retorna uma lista de produtos
     public List<Product> getProducts(){
         return this.products;
     }
-
     public LocalDateTime getDate(){
         return this.date;
     }
     public Customer getCustomer(){
         return this.customer;
     }
-
     //Estamos sobrescrevendo o metodo toString da classe object
     public String toString(){
         return "[Payment: " + date.format(DateTimeFormatter.ofPattern("dd/MM/yyy")) + " "

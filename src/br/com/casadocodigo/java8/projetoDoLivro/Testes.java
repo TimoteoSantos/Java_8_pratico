@@ -10,6 +10,9 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
@@ -100,10 +103,127 @@ public class Testes {
                                         .reduce(BigDecimal.ZERO, BigDecimal::add)
                         );
 
+        BigDecimal total =
+                payments.stream()
+                        .map(p-> p.getProducts().stream()
+                                .map(Product::getPrice)
+                                .reduce(BigDecimal.ZERO, BigDecimal::add))
+                        .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+
         Stream<BigDecimal> priceOfEachProduct =
                 payments.stream()
                         .flatMap(p-> p.getProducts().stream().map(Product::getPrice));
 
+
+        Function<Payment, Stream<BigDecimal>> mapper =
+                p-> p.getProducts().stream().map(Product::getPrice);
+
+
+        BigDecimal totalFlat =
+                payments.stream()
+                        .flatMap(p-> p.getProducts().stream().map(Product::getPrice))
+                        .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+
+        Stream<Product> products = payments.stream()
+                .map(Payment::getProducts)
+                .flatMap(p-> p.stream());
+
+        Stream<Product> products2 = payments.stream()
+                .map(Payment::getProducts)
+                .flatMap(List::stream);
+
+        Stream<Product> products3 = payments.stream()
+                .flatMap(p-> p.getProducts().stream());
+
+
+        Map<Product, Long> topProducts = payments.stream()
+                .flatMap(p-> p.getProducts().stream())
+                .collect(Collectors.groupingBy(Function.identity(),
+                        Collectors.counting()));
+        System.out.println(topProducts);
+
+
+        topProducts.entrySet().stream()
+                .forEach(System.out::println);
+
+
+        topProducts.entrySet().stream()
+                .max(Comparator.comparing(Map.Entry::getValue))
+                .ifPresent(System.out::println);
+
+
+        Map<Product, BigDecimal> totalValuePerProduct = payments.stream()
+                .flatMap(p-> p.getProducts().stream())
+                .collect(Collectors.groupingBy(Function.identity(),
+                        Collectors.reducing(BigDecimal.ZERO, Product::getPrice,
+                                BigDecimal::add)));
+
+        totalValuePerProduct.entrySet().stream()
+                .sorted(Comparator.comparing(Map.Entry::getValue))
+                .forEach(System.out::println);
+
+
+        Map<Customer, List<Payment>> customerToPayments =
+                payments.stream()
+                        .collect(Collectors.groupingBy(Payment::getCustomer));
+
+
+
+        Map<Customer, List<List<Product>>> customerToProductsList =
+                payments.stream()
+                        .collect(Collectors.groupingBy(Payment::getCustomer,
+                                Collectors.mapping(Payment::getProducts, Collectors.toList())));
+        customerToProductsList.entrySet().stream()
+                .sorted(Comparator.comparing(e-> e.getKey().getName()))
+                .forEach(System.out::println);
+
+        Map<Customer, List<Product>> customerToProducts2steps =
+                customerToProductsList.entrySet().stream()
+                        .collect(Collectors.toMap(Map.Entry::getKey,
+                                e-> e.getValue().stream()
+                                        .flatMap(List::stream)
+                                        .collect(Collectors.toList())));
+
+        customerToProducts2steps.entrySet().stream()
+                .sorted(Comparator.comparing(e-> e.getKey().getName()))
+                .forEach(System.out::println);
+
+
+        Map<Customer, List<Product>> customerToProducts1step = payments.stream()
+                .collect(Collectors.groupingBy(Payment::getCustomer,
+                        Collectors.mapping(Payment::getProducts, Collectors.toList())))
+                .entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey,
+                        e-> e.getValue().stream()
+                                .flatMap(List::stream)
+                                .collect(Collectors.toList())));
+
+
+
+        Map<Customer, BigDecimal> totalValuePerCustomer = payments.stream()
+                .collect(Collectors.groupingBy(Payment::getCustomer,
+                        Collectors.reducing(BigDecimal.ZERO,
+                                p-> p.getProducts().stream().map(Product::getPrice).reduce(
+                                        BigDecimal.ZERO, BigDecimal::add),
+                                BigDecimal::add)));
+
+
+        Function<Payment, BigDecimal> paymentToTotal =
+                p-> p.getProducts().stream().map(Product::getPrice)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+
+        Map<Customer, BigDecimal> totalValuePerCustomers = payments.stream()
+                .collect(Collectors.groupingBy(Payment::getCustomer,
+                        Collectors.reducing(BigDecimal.ZERO,
+                                paymentToTotal,
+                                BigDecimal::add)));
+
+        totalValuePerCustomer.entrySet().stream()
+                .sorted(Comparator.comparing(Map.Entry::getValue))
+                .forEach(System.out::println);
 
 
     }

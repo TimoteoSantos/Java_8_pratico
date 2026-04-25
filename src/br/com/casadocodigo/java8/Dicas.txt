@@ -26,3 +26,318 @@ reduce → juntar tudo
 
 
 
+```java
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+/*
+ * EXEMPLO COMPLETO - STREAM API (JAVA 8)
+ * --------------------------------------
+ * Esse arquivo mostra:
+ * - map
+ * - flatMap
+ * - reduce
+ * - groupingBy
+ * - mapping
+ * - reducing
+ *
+ * Tudo comentado passo a passo
+ */
+
+public class StreamExample {
+
+    public static void main(String[] args) {
+
+        // =============================
+        // DADOS DE EXEMPLO
+        // =============================
+
+        Product p1 = new Product("Teclado", new BigDecimal("100"));
+        Product p2 = new Product("Mouse", new BigDecimal("50"));
+        Product p3 = new Product("Monitor", new BigDecimal("900"));
+
+        Customer c1 = new Customer("João");
+        Customer c2 = new Customer("Maria");
+
+        Payment pay1 = new Payment(c1, Arrays.asList(p1, p2));
+        Payment pay2 = new Payment(c1, Arrays.asList(p2, p3));
+        Payment pay3 = new Payment(c2, Arrays.asList(p1, p3));
+
+        List<Payment> payments = Arrays.asList(pay1, pay2, pay3);
+
+        // =============================
+        // 1. SOMA TOTAL (FORMA ANINHADA)
+        // =============================
+
+        BigDecimal total =
+                payments.stream()
+                        .map(p ->
+                                // soma os produtos de cada pagamento
+                                p.getProducts().stream()
+                                        .map(Product::getPrice)
+                                        .reduce(BigDecimal.ZERO, BigDecimal::add)
+                        )
+                        // soma todos os pagamentos
+                        .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        System.out.println("Total (map + reduce): " + total);
+
+
+        // =============================
+        // 2. USANDO FLATMAP
+        // =============================
+
+        Stream<BigDecimal> priceOfEachProduct =
+                payments.stream()
+                        .flatMap(p ->
+                                p.getProducts().stream()
+                                        .map(Product::getPrice)
+                        );
+
+        // =============================
+        // 3. FUNÇÃO REUTILIZÁVEL
+        // =============================
+
+        Function<Payment, Stream<BigDecimal>> mapper =
+                p -> p.getProducts().stream().map(Product::getPrice);
+
+
+        // =============================
+        // 4. SOMA TOTAL (FLATMAP)
+        // =============================
+
+        BigDecimal totalFlat =
+                payments.stream()
+                        .flatMap(p -> p.getProducts().stream().map(Product::getPrice))
+                        .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        System.out.println("Total (flatMap): " + totalFlat);
+
+
+        // =============================
+        // 5. STREAM DE PRODUTOS (3 FORMAS)
+        // =============================
+
+        Stream<Product> products = payments.stream()
+                .map(Payment::getProducts)
+                .flatMap(p -> p.stream());
+
+        Stream<Product> products2 = payments.stream()
+                .map(Payment::getProducts)
+                .flatMap(List::stream);
+
+        Stream<Product> products3 = payments.stream()
+                .flatMap(p -> p.getProducts().stream());
+
+
+        // =============================
+        // 6. PRODUTOS MAIS VENDIDOS
+        // =============================
+
+        Map<Product, Long> topProducts = payments.stream()
+                .flatMap(p -> p.getProducts().stream())
+                .collect(Collectors.groupingBy(
+                        Function.identity(),
+                        Collectors.counting()
+                ));
+
+        System.out.println("\nQuantidade por produto:");
+        topProducts.forEach((produto, qtd) ->
+                System.out.println(produto.getName() + " = " + qtd)
+        );
+
+        // Produto mais vendido
+        topProducts.entrySet().stream()
+                .max(Comparator.comparing(Map.Entry::getValue))
+                .ifPresent(e ->
+                        System.out.println("\nMais vendido: " +
+                                e.getKey().getName() + " = " + e.getValue())
+                );
+
+
+        // =============================
+        // 7. VALOR TOTAL POR PRODUTO
+        // =============================
+
+        Map<Product, BigDecimal> totalValuePerProduct = payments.stream()
+                .flatMap(p -> p.getProducts().stream())
+                .collect(Collectors.groupingBy(
+                        Function.identity(),
+                        Collectors.reducing(
+                                BigDecimal.ZERO,
+                                Product::getPrice,
+                                BigDecimal::add
+                        )
+                ));
+
+        System.out.println("\nValor total por produto:");
+        totalValuePerProduct.forEach((produto, valor) ->
+                System.out.println(produto.getName() + " = " + valor)
+        );
+
+
+        // =============================
+        // 8. CLIENTE -> PAGAMENTOS
+        // =============================
+
+        Map<Customer, List<Payment>> customerToPayments =
+                payments.stream()
+                        .collect(Collectors.groupingBy(Payment::getCustomer));
+
+
+        // =============================
+        // 9. CLIENTE -> LISTA DE LISTAS
+        // =============================
+
+        Map<Customer, List<List<Product>>> customerToProductsList =
+                payments.stream()
+                        .collect(Collectors.groupingBy(
+                                Payment::getCustomer,
+                                Collectors.mapping(
+                                        Payment::getProducts,
+                                        Collectors.toList()
+                                )
+                        ));
+
+
+        // =============================
+        // 10. FLATTEN (2 PASSOS)
+        // =============================
+
+        Map<Customer, List<Product>> customerToProducts2steps =
+                customerToProductsList.entrySet().stream()
+                        .collect(Collectors.toMap(
+                                Map.Entry::getKey,
+                                e -> e.getValue().stream()
+                                        .flatMap(List::stream)
+                                        .collect(Collectors.toList())
+                        ));
+
+
+        // =============================
+        // 11. FLATTEN (1 PASSO)
+        // =============================
+
+        Map<Customer, List<Product>> customerToProducts1step = payments.stream()
+                .collect(Collectors.groupingBy(
+                        Payment::getCustomer,
+                        Collectors.mapping(Payment::getProducts, Collectors.toList())
+                ))
+                .entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        e -> e.getValue().stream()
+                                .flatMap(List::stream)
+                                .collect(Collectors.toList())
+                ));
+
+
+        // =============================
+        // 12. TOTAL POR CLIENTE (FORMA COMPLEXA)
+        // =============================
+
+        Map<Customer, BigDecimal> totalValuePerCustomer = payments.stream()
+                .collect(Collectors.groupingBy(
+                        Payment::getCustomer,
+                        Collectors.reducing(
+                                BigDecimal.ZERO,
+                                p -> p.getProducts().stream()
+                                        .map(Product::getPrice)
+                                        .reduce(BigDecimal.ZERO, BigDecimal::add),
+                                BigDecimal::add
+                        )
+                ));
+
+
+        // =============================
+        // 13. FUNÇÃO REUTILIZÁVEL
+        // =============================
+
+        Function<Payment, BigDecimal> paymentToTotal =
+                p -> p.getProducts().stream()
+                        .map(Product::getPrice)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+
+        Map<Customer, BigDecimal> totalValuePerCustomers = payments.stream()
+                .collect(Collectors.groupingBy(
+                        Payment::getCustomer,
+                        Collectors.reducing(
+                                BigDecimal.ZERO,
+                                paymentToTotal,
+                                BigDecimal::add
+                        )
+                ));
+
+
+        // =============================
+        // 14. ORDENANDO CLIENTES POR GASTO
+        // =============================
+
+        System.out.println("\nTotal gasto por cliente:");
+        totalValuePerCustomer.entrySet().stream()
+                .sorted(Comparator.comparing(Map.Entry::getValue))
+                .forEach(e ->
+                        System.out.println(e.getKey().getName() + " = " + e.getValue())
+                );
+    }
+}
+
+
+// =============================
+// CLASSES DE APOIO
+// =============================
+
+class Product {
+    private String name;
+    private BigDecimal price;
+
+    public Product(String name, BigDecimal price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public String getName() { return name; }
+    public BigDecimal getPrice() { return price; }
+
+    // IMPORTANTE: necessário para funcionar corretamente no Map
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Product)) return false;
+        Product product = (Product) o;
+        return Objects.equals(name, product.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+}
+
+class Customer {
+    private String name;
+
+    public Customer(String name) {
+        this.name = name;
+    }
+
+    public String getName() { return name; }
+}
+
+class Payment {
+    private Customer customer;
+    private List<Product> products;
+
+    public Payment(Customer customer, List<Product> products) {
+        this.customer = customer;
+        this.products = products;
+    }
+
+    public Customer getCustomer() { return customer; }
+    public List<Product> getProducts() { return products; }
+}
+```
