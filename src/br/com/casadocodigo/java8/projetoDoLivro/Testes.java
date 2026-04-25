@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 
@@ -78,9 +79,32 @@ public class Testes {
         //CALCULANDO O VALOR TOTAL DO PAGAMENTO pyment1 o BigDecimal nao tem um metodo que faz a soma
         //teremos que criar esse metodo usando o lambdas
 
-        payment1.getProducts().stream()
-                .map(Product::getPrice)
-                .reduce(BigDecimal::add)
-                .ifPresent(System.out::println);
+        payment1.getProducts().stream()//enviando os dados do metodo getPducts que retorna uma lista de produtos
+                .map(Product::getPrice)// extrair o preco ultilizando o metodo getPrice
+                .reduce(BigDecimal::add)//esse metodo faz a soma dos valores enviados para ele
+                .ifPresent(System.out::println);//se existir daddos a serem impressos iprime
+
+        //somando os valores de todos os pagamentos
+        // Stream que vai conter o total (BigDecimal) de cada pagamento
+        Stream<BigDecimal> pricesStream =
+                // Converte a lista de pagamentos em um Stream<Payment>
+                payments.stream()
+                        // Para cada pagamento (p), vamos transformar ele em um BigDecimal (total)
+                        .map(p ->
+                                // Pega os produtos desse pagamento e transforma em Stream<Product>
+                                p.getProducts().stream()
+                                        // Converte cada produto no seu preço → Stream<BigDecimal>
+                                        .map(Product::getPrice)
+                                        // Soma todos os preços dos produtos desse pagamento
+                                        // Começa com ZERO e vai acumulando com add
+                                        .reduce(BigDecimal.ZERO, BigDecimal::add)
+                        );
+
+        Stream<BigDecimal> priceOfEachProduct =
+                payments.stream()
+                        .flatMap(p-> p.getProducts().stream().map(Product::getPrice));
+
+
+
     }
 }
